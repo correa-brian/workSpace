@@ -1,0 +1,261 @@
+/*Reset*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.app-container {
+	transition-property: opacity;
+	transition-duration: 1s;
+	text-shadow: 1px 1px 1px black;
+}
+
+/*Header*/
+#header {
+	display: flex;
+	background-color: #04DCA2;
+	color: white;
+	height: 80px;
+	width: 100%;
+	box-shadow: 0px 1px 1px gray;
+  font-family: 'Voltaire', sans-serif;
+	position: fixed;
+	z-index: 10;
+}
+
+.logo-container {
+  display: flex;
+	align-items: center;
+	width: 80%;
+}
+
+.logo {
+	/*height: 83.5px;
+	width: 62.5px;*/
+	height: 67.35px;
+  width: 50.625px;
+	margin: 0px 10px;
+}
+
+.logo-text {
+	font-size: 1.8em;
+	font-family: 'Voltaire', sans-serif;
+  cursor: pointer;
+}
+
+.logo-text:hover {
+  color: lightgray;
+}
+
+.register-container {
+	width: 20%;
+	margin: auto 1em;
+	text-align: right;
+}
+
+.register-btn {
+	font-size: 1.2em;
+	color: white;
+	background-color: transparent;
+	border: 2px solid white;
+	border-radius: 1em;
+	padding: .3em .6em;
+	width: 160px;
+}
+
+/*Jumbotron*/
+.jumbotron{
+  height: 600px;
+  width: 100%;
+	font-family: sans-serif;
+	color: #a09f9f;
+	background-color: white;
+  font-family: 'Voltaire', sans-serif;
+  overflow: scroll;
+	background: url('/assets/images/DeathtoStock_Meticulous.jpg');
+	background-size: cover;
+	padding-top: 80px;
+	display: flex;
+	justify-content: space-around;
+}
+
+.jumbotron-left {
+	width: 50%;
+	margin-left: 5%;
+	overflow: scroll;
+}
+
+.jumbotron-title {
+  font-size: 4em;
+  margin: 20% auto 0;
+	color: white;
+}
+
+.jumbotron-right {
+	width: 45%;
+	background-color: black;
+	opacity: .3;
+	height: 90%;
+	margin: auto;
+	display: flex;
+	align-items: center;
+}
+
+.jumbotron-overlay {
+	background-color: white;
+	height: 90%;
+	width: 90%;
+	margin: auto;
+}
+
+/*Draft*/
+.draft-form {
+  margin: 1.4em auto 0;
+}
+
+#title{
+	font-size: 1.2em;
+	height: 44px;
+	width: 50%;
+	margin: 2.5% 0;
+	padding: 5px;
+}
+
+#draft-body {
+  width: 80%;
+  font-size: 1.5em;
+  height: 300px;
+  border: .5px solid lightgray;
+  resize: none;
+}
+
+.submit-btn {
+	/*display: block;*/
+	width: 20%;
+	margin: 1% 0 0 1%;
+	height: 5%;
+	background-color: #1670DC;
+	color: white;
+	font-size: 1.2em;
+}
+
+.reset-btn {
+	/*display: block;*/
+	width: 20%;
+	margin: 1% 0 0 1%;
+	height: 5%;
+	background-color: #1670DC;
+	color: white;
+	font-size: 1.2em;
+}
+
+/*Footer*/
+#footer{
+	background-color: #04DCA2;
+  color: white;
+  font-family: 'Voltaire', sans-serif;
+  height: 200px;
+  text-align: center;
+  padding-top: 1em;
+}
+
+#footer a:hover {
+  color: lightgray;
+}
+
+.copyright {
+  font-size: 1.2em;
+  display: inline-block;
+  width: 100%;
+  display: inline-block;
+}
+
+.copyright-text {
+  float: right;
+  margin-right: .6em;
+}
+
+.workspace-container{
+  display: inline-block;
+  width: 33%;
+}
+
+.workspace-title{
+  font-size: 2em;
+}
+
+.workspace-logo{
+  width: 25px;
+  height: 33.4px;
+  margin:0;
+  margin-left: .5em;
+  /*height: 83.5px;*/
+	/*width: 62.5px;*/
+}
+
+.ws-list-item {
+  margin: 1em;
+  font-size: 1.2em;
+}
+
+.ws-list-item a {
+  text-decoration: none;
+  color: white;
+}
+
+.discover{
+  display: inline-block;
+  width: 33%;
+}
+
+.discover-title {
+  font-size: 2em;
+}
+
+.resources {
+  display: inline-block;
+  width: 33%;
+}
+
+.resources-title {
+  font-size:2em;
+}
