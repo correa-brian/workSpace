@@ -1,15 +1,17 @@
 var Draft = require('../models/Draft')
+var Promise = require('bluebird')
 
 module.exports = {
-  get: function(params, callback){
-    Draft.find(params, function(err, drafts){
-      if(err){
-        if(callback !== null)
-          callback(err, null)
+  get: function(params){
+    return new Promise(function(resolve, reject){
+      Draft.find(params, function(err, drafts){
+        if(err){
+          reject(err)
           return
-      }
-      if(callback !== null)
-        callback(null, drafts)
+        }
+
+        resolve(drafts)
+      })
     })
   },
   post: function(params, callback){

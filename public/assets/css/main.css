@@ -44,8 +44,9 @@ table {
 }
 
 .app-container {
-	transition-property: opacity;
-	transition-duration: 1s;
+	opacity: 0;
+	transition: all 1s linear;
+	transition-delay: 200ms;
 	text-shadow: 1px 1px 1px black;
 }
 
@@ -60,6 +61,16 @@ table {
   font-family: 'Voltaire', sans-serif;
 	position: fixed;
 	z-index: 10;
+	transition: all .5s ease-in;
+	transition-delay: 1s;
+}
+
+#header.slideIn {
+	transform: translateY(0);
+}
+
+#header.slideOut {
+	transform: translateY(-80px);
 }
 
 .logo-container {
@@ -102,6 +113,10 @@ table {
 	width: 160px;
 }
 
+.register-btn:focus {
+	outline: 0;
+}
+
 /*Jumbotron*/
 .jumbotron{
   height: 600px;
@@ -110,7 +125,6 @@ table {
 	color: #a09f9f;
 	background-color: white;
   font-family: 'Voltaire', sans-serif;
-  overflow: scroll;
 	background: url('/assets/images/DeathtoStock_Meticulous.jpg');
 	background-size: cover;
 	padding-top: 80px;
@@ -121,13 +135,31 @@ table {
 .jumbotron-left {
 	width: 50%;
 	margin-left: 5%;
-	overflow: scroll;
+	overflow: visible;
+}
+
+#jumbotron-container {
+	transition: all .3s linear;
+}
+
+#jumbotron-container.slideIn {
+	transform: translateX(2em);
+}
+
+#jumbotron-container.slideOut {
+	transform: translateX(0em);
 }
 
 .jumbotron-title {
-  font-size: 4em;
-  margin: 20% auto 0;
+  font-size: 2em;
+  margin: 10% 0 0;
+	padding: .3em .5em;
 	color: white;
+	width: 500px;
+	background-color: #007AFF;
+	opacity: 0.9;
+	border-radius: 5em;
+	text-shadow: none;
 }
 
 .jumbotron-right {
@@ -154,38 +186,93 @@ table {
 
 #title{
 	font-size: 1.2em;
-	height: 44px;
 	width: 50%;
+	height: 44px;
 	margin: 2.5% 0;
-	padding: 5px;
+	padding: 10px;
+	border-radius: 1em;
+	transition: all .3s linear;
 }
 
-#draft-body {
+#title:focus {
+	outline: 0;
+}
+
+.title-visible {
+	opacity: 1;
+	transform: translateX(1em);
+}
+
+.title-not-visible {
+	opacity: 0;
+	transform: translateX(0);
+}
+
+#text {
   width: 80%;
   font-size: 1.5em;
-  height: 300px;
-  border: .5px solid lightgray;
+  height: 200px;
+	transition: all .3s linear;
+  border-radius: 1em;
+	border: none;
   resize: none;
+	padding: 10px;
+}
+
+#text:focus {
+	outline: 0;
+}
+
+#text.slideIn {
+	opacity: 1;
+	transform: translateX(1em);
+}
+
+#text.slideOut {
+	opacity: 0;
+	transform: translateX(0);
 }
 
 .submit-btn {
-	/*display: block;*/
-	width: 20%;
-	margin: 1% 0 0 1%;
+	min-width: 20%;
+	margin: 2% 0 0 30%;
 	height: 5%;
 	background-color: #1670DC;
 	color: white;
 	font-size: 1.2em;
+	transition: all .3s linear;
 }
 
-.reset-btn {
-	/*display: block;*/
-	width: 20%;
-	margin: 1% 0 0 1%;
-	height: 5%;
-	background-color: #1670DC;
-	color: white;
-	font-size: 1.2em;
+.submit-btn:focus {
+	outline: 0;
+}
+
+.btn-visible {
+	opacity: 1;
+	transform: translateX(1em);
+}
+
+.btn-not-visible {
+	opacity: 0;
+	transform: translateX(0);
+}
+
+#workspace-btn {
+	background-color: #007AFF;
+	width: 81.96px;
+	height: 81.96px;
+	border-radius: 50%;
+	text-align: center;
+	margin: 0 0 0 -5%;
+	box-shadow: 0 0 10px black;
+	cursor: pointer;
+	position: absolute;
+}
+
+#workspace-btn-bg {
+	height: 53.88px;
+	width: 40.5px;
+	margin-top: 12%;
 }
 
 /*Footer*/

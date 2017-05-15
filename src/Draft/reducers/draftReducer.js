@@ -1,7 +1,8 @@
 import constants from '../constants/constants'
 
 var initialState = {
-  draft: {}
+  draft: {},
+  drafts: []
 }
 
 export default (state = initialState, action) => {
@@ -9,8 +10,11 @@ export default (state = initialState, action) => {
 
   switch(action.type){
     case constants.RECEIVED_DRAFT:
-      console.log('REDUCER: '+JSON.stringify(action.draft))
       newState['draft'] = action.draft
+      return newState
+
+    case constants.RECEIVED_DRAFTS:
+      newState['drafts'] = action.payload
       return newState
 
     default:

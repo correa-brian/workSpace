@@ -7,18 +7,19 @@ class LandingLayout extends Component {
   constructor(props){
     super(props)
     this.state = {
-      opacity: 0
+      opacity: 0,
+      visible: false
     }
   }
 
   componentDidMount(){
-    setTimeout(() => {this.setState({opacity: 1})}, 200)
+    setTimeout(() => {this.setState({opacity: 1, visible: true})}, 0)
   }
 
   render(){
     return(
       <div className='app-container' style={{opacity: this.state.opacity}}>
-        <Header />
+        <Header visible={this.state.visible} />
         <Jumbotron />
         <Footer />
       </div>

@@ -2,35 +2,52 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import store from '../../stores/store'
 import { receivedDraft } from '../actions/actions'
+import DraftInputs from './DraftInputs'
 
 class DraftFrom extends Component {
   constructor(props){
     super(props)
-    this.showNextField = this.showNextField.bind(this)
+    this.startDraft = this.startDraft.bind(this)
+    this.captureDraft = this.captureDraft.bind(this)
+    this.nextField = this.nextField.bind(this)
     this.state = {
-      marginTop: 20+'%',
-      opacity: 0
+      visible: false,
+      slide: 0
     }
   }
 
-  showNextField(event){
-    console.log('showNextField: '+JSON.stringify(event.target.value))
-    if(event.target.value === '') return this.setState({marginTop: 10+'%', opacity: 0})
-    this.setState({marginTop: 5+'%', opacity: 1})
-    this.props.updateDraft(event.target.value)
+  startDraft(event){
+    this.setState({visible: !this.state.visible })
+  }
+
+  captureDraft(event){
+    const id = event.target.id
+    const value = event.target.value
+    let newDraft = Object.assign({}, this.props.draft)
+    newDraft[id] = value
+
+    this.props.updateDraft(newDraft)
+  }
+
+  nextField(event){
+    console.log('nextField: '+JSON.stringify(this.props.draft))
+    //this.props.redux-action
   }
 
   render(){
-    console.log('DRAFT Props: '+JSON.stringify(this.props.draft))
+    let {visible, slide} = this.state
+
     return(
-      <div>
-        <h4 className='jumbotron-title' style={{marginTop: this.state.marginTop, transitionProperty: 'margin-top', transitionDuration: '1.5s'}}>Add to our workSpace</h4>
-        <form className='draft-form' action='/api/drafts' method='post'>
-        <input onChange={this.showNextField}  name='title' id='title' placeholder='Start with a title' /> <br />
-          <textarea style={{opacity: this.state.opacity, transitionProperty: 'opacity', transitionDuration: '1.5s'}} name='text' id='draft-body' placeholder="Share your draft..."></textarea> <br />
-          <button style={{opacity: this.state.opacity, transitionProperty: 'opacity', transitionDuration: '1.5s'}} className='submit-btn' type="submit">Submit</button>
-          <input style={{opacity: this.state.opacity, transitionProperty: 'opacity', transitionDuration: '1.5s'}} className='reset-btn' type="reset" value="Reset" />
-        </form>
+      <div id='jumbotron-container' className={visible ? 'slideIn' : 'slideOut'}>
+        <h4 className='jumbotron-title' >Would you like to add to your workSpace?</h4>
+        <DraftInputs className='draft-form'>
+          <input id='title' className={visible ? 'title-visible' : 'title-not-visible'} placeholder='Would you you like to title it?' onChange={this.captureDraft} /> <br />
+          <textarea name='text' id='text' className={visible ? 'slideIn' : 'slideOut'} placeholder="Share your draft..." onChange={this.captureDraft}></textarea>
+        </DraftInputs>
+        <button className={visible ? 'submit-btn btn-visible' : 'submit-btn btn-not-visible'} onClick={this.nextField}>Next</button>
+        <div id='workspace-btn' onClick={this.startDraft}>
+          <img id='workspace-btn-bg' src="/assets/images/workspace-logo-white.png" />
+        </div>
       </div>
     )
   }

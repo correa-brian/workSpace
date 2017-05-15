@@ -16,21 +16,18 @@ router.get('/:resource', function(req, res, next) {
     return
   }
 
-  controller.get(req.query, function(err, results){
-    console.log('API ROUTE GET')
-    if(err){
-      res.json({
-        confirmation: 'Fail',
-        message: err
-      })
-      return
-    }
-
+  controller.get(req.query)
+  .then(function(results){
     res.json({
       confirmation: 'Success',
       results: results
     })
-    return
+  })
+  .catch(function(err){
+    res.json({
+      confirmation: 'Fail',
+      message: err
+    })
   })
 })
 
