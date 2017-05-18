@@ -20,13 +20,37 @@ const getRequest = (endpoint, params, actionType) => {
     })
 }
 
+const postRequest = (endpoint, params, actionType) => {
+  return (dispatch) =>
+    APIManager.post(endpoint, params)
+    .then(response => {
+      const payload = response.results || response.result
+      dispatch({
+        type: actionType,
+        payload: payload,
+        params: params
+      })
+
+      return response
+    })
+    .catch(err => {
+      throw err
+    })
+}
+
 export const receivedDraft = (draft) => ({
   type: constants.RECEIVED_DRAFT,
   draft
 })
 
-export const receivedDrafts = (drafts) => {
+export const receivedFeaturedDrafts = (drafts) => {
   return (dispatch) => {
-    return dispatch(getRequest('/api/drafts', null, constants.RECEIVED_DRAFTS))
+    return dispatch(getRequest('/api/getFeaturedDrafts', null, constants.RECEIVED_FEATURED_DRAFTS))
+  }
+}
+
+export const createdDraft = (draft) => {
+  return (dispatch) => {
+    return dispatch(postRequest('/api/drafts', draft, constants.CREATED_DRAFT))
   }
 }

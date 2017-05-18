@@ -13,8 +13,12 @@ export default (state = initialState, action) => {
       newState['draft'] = action.draft
       return newState
 
-    case constants.RECEIVED_DRAFTS:
+    case constants.RECEIVED_FEATURED_DRAFTS:
       newState['drafts'] = action.payload
+      return newState
+
+    case constants.CREATED_DRAFT:
+      newState['draft'] = action.payload
       return newState
 
     default:

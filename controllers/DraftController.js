@@ -14,19 +14,28 @@ module.exports = {
       })
     })
   },
-  post: function(params, callback){
-    // var topics = params.topics
-    // var topicsArray = topics.split(',')
-    // params.topics = topicsArray
-    // console.log('topicsArray: '+JSON.stringify(topicsArray))
-    Draft.create(params, function(err, draft){
-      if(err){
-        if(callback !== null)
-          callback(err, null)
+  getById: function(id){
+    return new Promise(function(resolve, reject){
+      Draft.findById(id, function(err, draft){
+        if(err){
+          reject(err)
           return
-      }
-      if(callback !== null)
-        callback(null, draft.summary())
+        }
+
+      resolve(draft.summary())
+      })
+    })
+  },
+  post: function(params){
+    return new Promise(function(resolve, reject){
+      Draft.create(params, function(err, draft){
+        if(err){
+          reject(err)
+          return
+        }
+
+        resolve(draft.summary())
+      })
     })
   }
 }

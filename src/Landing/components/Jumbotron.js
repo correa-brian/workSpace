@@ -14,6 +14,7 @@ class Jumbotron extends Component {
           <DraftForm />
         </div>
         <div className='jumbotron-right'>
+          <h1 className='draft-list-header'>Trending Drafts</h1>
           <div className='jumbotron-overlay'>
             <DraftList />
           </div>

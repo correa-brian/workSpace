@@ -7,11 +7,13 @@ class DraftListItem extends Component {
 
   render(){
     let {draft} = this.props
-    console.log('Here are my drafts in a list: '+JSON.stringify(draft))
 
     return(
-      <div style={{color: 'black', textShadow: 'none'}}>
-        {draft.title}
+      <div className='draft-list-item'>
+        <h1>{draft.title}</h1>
+        <h3>Drafted by: {draft.authorID}</h3>
+        <p>{draft.text}</p>
+        <p>Topics: {draft.topics}</p>
       </div>
     )
   }

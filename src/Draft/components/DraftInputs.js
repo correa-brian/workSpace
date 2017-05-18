@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 
 class DraftInputs extends Component {
   constructor(props){
@@ -7,9 +8,12 @@ class DraftInputs extends Component {
 
   render(){
     return(
-      <div>
+      <CSSTransitionGroup
+        transitionName="example"
+        transitionEnterTimeout={400}
+        transitionLeaveTimeout={300}>
         {this.props.children}
-      </div>
+      </CSSTransitionGroup>
     )
   }
 }

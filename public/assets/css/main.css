@@ -15,8 +15,8 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
-	font: inherit;
+	/*font-size: 100%;*/
+	/*font: inherit;*/
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -164,24 +164,27 @@ table {
 
 .jumbotron-right {
 	width: 45%;
-	background-color: black;
-	opacity: .3;
+	background-color: #4B5353;
+	opacity: .8;
 	height: 90%;
 	margin: auto;
 	display: flex;
-	align-items: center;
+	flex-direction: column;
 }
 
 .jumbotron-overlay {
 	background-color: white;
-	height: 90%;
+	height: 80%;
 	width: 90%;
-	margin: auto;
+	margin:  0 auto auto;
+	overflow-x: scroll;
+	transition: all .5s ease-in;
 }
 
-/*Draft*/
+/*Draft Form*/
 .draft-form {
   margin: 1.4em auto 0;
+	transition: all .4s linear;
 }
 
 #title{
@@ -198,12 +201,12 @@ table {
 	outline: 0;
 }
 
-.title-visible {
+.form-slideIn {
 	opacity: 1;
 	transform: translateX(1em);
 }
 
-.title-not-visible {
+.form-slideOut {
 	opacity: 0;
 	transform: translateX(0);
 }
@@ -223,21 +226,31 @@ table {
 	outline: 0;
 }
 
-#text.slideIn {
-	opacity: 1;
-	transform: translateX(1em);
+#authorID {
+	font-size: 1.2em;
+	width: 50%;
+	height: 44px;
+	margin: 2.5% 0;
+	padding: 10px;
+	border-radius: 1em;
+	transition: all .3s linear;
 }
 
-#text.slideOut {
-	opacity: 0;
-	transform: translateX(0);
+#topics {
+	font-size: 1.2em;
+	width: 50%;
+	height: 44px;
+	margin: 2.5% 0;
+	padding: 10px;
+	border-radius: 1em;
+	transition: all .3s linear;
 }
 
 .submit-btn {
 	min-width: 20%;
 	margin: 2% 0 0 30%;
 	height: 5%;
-	background-color: #1670DC;
+	background-color: #007AFF;
 	color: white;
 	font-size: 1.2em;
 	transition: all .3s linear;
@@ -273,6 +286,33 @@ table {
 	height: 53.88px;
 	width: 40.5px;
 	margin-top: 12%;
+}
+
+/*Draft List*/
+.draft-list-header {
+	width: 90%;
+	text-align: center;
+	margin: auto auto 0;
+	color: black;
+	text-shadow: none;
+	height: 6%;
+	padding-top: 2.5%;
+	background-color: white;
+}
+
+
+.draft-list {
+	height: 93%;
+	display: flex;
+	transition: all .4s ease-in;
+}
+
+.draft-list-item {
+	color: black;
+	text-shadow: none;
+	margin: .75em 1em;
+	height: 100%;
+	width: 100%;
 }
 
 /*Footer*/
@@ -345,4 +385,34 @@ table {
 
 .resources-title {
   font-size:2em;
+}
+
+/*Transitions*/
+.example-enter {
+  opacity: 0.01;
+	/*z-index: 10;*/
+	/*display: none;*/
+	/*transform: translateX(1em);*/
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+	/*background-color: blue;*/
+	/*transform: translateX(1em);*/
+  transition: all 500ms ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+	z-index: 20;
+	background-color: yellow;
+	display: none;
+	transition: all 500ms linear;
+	transform: translateX(5em);
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: all 300ms ease-in;
+	background-color: green;
 }
