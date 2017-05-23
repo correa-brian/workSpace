@@ -1,3 +1,5 @@
+const dotenv = require('dotenv').config()
+
 var webpack = require("webpack");
 var path = require('path');
 
