@@ -1,10 +1,10 @@
 var express = require('express')
 var router = express.Router()
 var draftController = require('../controllers/DraftController')
-var getFeaturedDrafts = require('../controllers/GetFeaturedDraftsController')
+var getFeaturedDraftsController = require('../controllers/GetFeaturedDraftsController')
 var controllers = {
   drafts: draftController,
-  getFeaturedDrafts: getFeaturedDrafts
+  getFeaturedDrafts: getFeaturedDraftsController
 }
 
 router.get('/:resource', function(req, res, next) {

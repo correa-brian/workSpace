@@ -54,3 +54,9 @@ export const createdDraft = (draft) => {
     return dispatch(postRequest('/api/drafts', draft, constants.CREATED_DRAFT))
   }
 }
+
+export const uploadImage = (data) => {
+  return (dispatch) => {
+    return dispatch(postRequest('/api/S3Upload', data, constants.UPLOAD_IMAGE))
+  }
+}

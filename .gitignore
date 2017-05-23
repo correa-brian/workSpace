@@ -1,4 +1,5 @@
 /node_modules/
-*.DS_Store
 /public/dist/bundle.js
 /public/dist/bundle.map
+.DS_Store
+.env
