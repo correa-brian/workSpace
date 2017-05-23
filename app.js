@@ -9,7 +9,7 @@ const index = require('./routes/index');
 const api = require('./routes/api');
 require('dotenv').config()
 
-const mongoUrl = process.env.DB_URL
+const mongoUrl = process.env.MONGODB_URI || 'mongodb://localhost/'+appName
 mongoose.connect(mongoUrl, function(err, res){
   if(err){
     console.log('DB Connection Failed: '+err)
