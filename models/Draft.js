@@ -5,6 +5,7 @@ var DraftSchema = new mongoose.Schema({
   authorID: {type: String, default: ''},
   text: {type: String, default: ''},
   topics: {type: Array, default: []},
+  image: {type: mongoose.Schema.Types.Mixed, default: {}},
   timestamp: {type: String, default: Date.now}
 })
 
@@ -15,6 +16,7 @@ DraftSchema.methods.summary = function(){
     authorID: this.authorID,
     text: this.text,
     topics: this.topics,
+    image: this.image,
     timestamp: this.timestamp
   }
 
