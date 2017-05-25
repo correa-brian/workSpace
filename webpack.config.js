@@ -1,7 +1,4 @@
-const dotenv = require('dotenv').config()
-
-var webpack = require("webpack");
-var path = require('path');
+const webpack = require("webpack")
 
 module.exports = {
 	entry: {
@@ -11,7 +8,7 @@ module.exports = {
 		filename:"public/dist/bundle.js",
     sourceMapFilename: "public/dist/bundle.map"
 	},
-	devtool: '#source-map',	
+	devtool: '#source-map',
 	plugins: process.env.NODE_ENV === 'production' ? [
 	    new webpack.DefinePlugin({
         'process.env': {
