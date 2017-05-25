@@ -1,15 +1,15 @@
-var express = require('express')
-var router = express.Router()
-var draftController = require('../controllers/DraftController')
-var getFeaturedDraftsController = require('../controllers/GetFeaturedDraftsController')
-var controllers = {
+const express = require('express')
+const router = express.Router()
+const draftController = require('../controllers/DraftController')
+const getFeaturedDraftsController = require('../controllers/GetFeaturedDraftsController')
+const controllers = {
   drafts: draftController,
   getFeaturedDrafts: getFeaturedDraftsController
 }
 
-router.get('/:resource', function(req, res, next) {
-  var resource = req.params.resource
-  var controller = controllers[resource]
+router.get('/:resource', function(req, res) {
+  const resource = req.params.resource
+  const controller = controllers[resource]
   if(controller === null){
     res.json({
       confirmation: 'Fail',
@@ -33,10 +33,10 @@ router.get('/:resource', function(req, res, next) {
   })
 })
 
-router.get('/:resource/:id', function(req, res, next){
-  var resource = req.params.resource
-  var controller = controllers[resource]
-  var id = req.params.id
+router.get('/:resource/:id', function(req, res){
+  const resource = req.params.resource
+  const controller = controllers[resource]
+  const id = req.params.id
 
   if(controller === null){
     res.json({
@@ -61,10 +61,10 @@ router.get('/:resource/:id', function(req, res, next){
   })
 })
 
-router.post('/:resource', function(req, res, next){
-  var resource = req.params.resource
-  var params = req.body
-  var controller = controllers[resource]
+router.post('/:resource', function(req, res){
+  const resource = req.params.resource
+  const params = req.body
+  const controller = controllers[resource]
   console.log('ROUTER POST RESOURCE: '+JSON.stringify(resource))
   console.log('ROUTER POST PARAMS: '+JSON.stringify(params))
 

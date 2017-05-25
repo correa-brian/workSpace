@@ -1,5 +1,5 @@
-var Draft = require('../models/Draft')
-var Promise = require('bluebird')
+const Draft = require('../models/Draft')
+const Promise = require('bluebird')
 
 module.exports = {
   get: function(params){
