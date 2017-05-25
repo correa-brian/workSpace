@@ -155,7 +155,7 @@ table {
   margin: 10% 0 0;
 	padding: .3em .5em;
 	color: white;
-	width: 500px;
+	width: 350px;
 	background-color: #007AFF;
 	opacity: 0.9;
 	border-radius: 5em;
@@ -174,8 +174,8 @@ table {
 
 .jumbotron-overlay {
 	background-color: white;
-	height: 80%;
-	width: 90%;
+	height: 85%;
+	width: 95%;
 	margin:  0 auto auto;
 	overflow-x: scroll;
 	transition: all .5s ease-in;
@@ -248,12 +248,13 @@ table {
 
 .submit-btn {
 	min-width: 20%;
-	margin: 2% 0 0 30%;
+	margin: 2% 1em;
 	height: 5%;
 	background-color: #007AFF;
 	color: white;
 	font-size: 1.2em;
 	transition: all .3s linear;
+	border-radius: 10%;
 }
 
 .submit-btn:focus {
@@ -290,7 +291,7 @@ table {
 
 /*Draft List*/
 .draft-list-header {
-	width: 90%;
+	width: 95%;
 	text-align: center;
 	margin: auto auto 0;
 	color: black;
@@ -313,6 +314,7 @@ table {
 	margin: .75em 1em;
 	height: 100%;
 	width: 100%;
+	text-align: center;
 }
 
 /*Footer*/
