@@ -11,6 +11,7 @@ class DraftListItem extends Component {
     return(
       <div className='draft-list-item'>
         <h1>{draft.title}</h1>
+        <img src={draft.image} />
         <h3>Drafted by: {draft.authorID}</h3>
         <p>{draft.text}</p>
         <p>Topics: {draft.topics}</p>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 
-class DraftInputs extends Component {
+class DraftContainer extends Component {
   constructor(props){
     super(props)
   }
@@ -18,4 +18,4 @@ class DraftInputs extends Component {
   }
 }
 
-export default DraftInputs
+export default DraftContainer
