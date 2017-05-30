@@ -7378,9 +7378,6 @@ exports.default = {
   post: function post(endpoint, params) {
     return new Promise(function (resolve, reject) {
       _superagent2.default.post(endpoint).send(params).set('Accept', 'application/json').end(function (err, response) {
-        console.log('ERR: ' + JSON.stringify(err));
-        console.log('RESPONSE: ' + JSON.stringify(response));
-
         if (err) {
           reject(err);
           return;

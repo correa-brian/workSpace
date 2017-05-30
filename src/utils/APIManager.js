@@ -29,9 +29,6 @@ export default {
       .send(params)
       .set('Accept', 'application/json')
       .end((err, response) => {
-        console.log('ERR: '+JSON.stringify(err))
-        console.log('RESPONSE: '+JSON.stringify(response))
-
         if(err){
           reject(err)
           return
