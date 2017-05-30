@@ -5,7 +5,6 @@ import { receivedDraft, receivedFeaturedDrafts, createdDraft } from '../actions/
 import DraftContainer from './DraftContainer'
 import DraftInput from './DraftInput'
 import request from 'superagent'
-import Dropzone from 'react-dropzone'
 import APIManager from '../../utils/APIManager'
 
 class DraftFrom extends Component {
@@ -13,9 +12,13 @@ class DraftFrom extends Component {
     super(props)
     this.captureDraft = this.captureDraft.bind(this)
     this.nextField = this.nextField.bind(this)
-    this.handleImageUpload = this.handleImageUpload.bind(this)
+    this.fetchS3URL = this.fetchS3URL.bind(this)
+    this.uploadImage = this.uploadImage.bind(this)
     this.state = {
-      slide: 0
+      slide: 0,
+      file: null,
+      imagePreviewURL: null,
+      signedRequest: {}
     }
   }
 
@@ -25,19 +28,57 @@ class DraftFrom extends Component {
     let newDraft = Object.assign({}, this.props.draft)
     newDraft[id] = value
 
-    console.log('newDraft: ', newDraft)
     this.props.updateDraft(newDraft)
   }
 
-  handleImageUpload(event){
+  fetchS3URL(event){
+    event.preventDefault()
     const value = event.target.value
-    //upload image to s3
+    let reader = new FileReader()
+    let file = event.target.files[0]
+
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewURL: reader.result
+      })
+      let _this = this
+      APIManager.get('/api/signS3', {fileName: file})
+      .then(function(data){
+        _this.setState({signedRequest: data.results})
+      })
+      .catch(function(err){
+        return alert('Looks like something went wrong uploading your image.')
+      })
+    }
+
+    reader.readAsDataURL(file)
+  }
+
+  uploadImage(){
+    let {signedRequest} = this.state.signedRequest
+    //check for null signedRequest & skip uploadImage
+
+    let _this = this
+    request
+      .put(signedRequest)
+      .send(this.state.file)
+      .set('Accept', 'application/json')
+      .end(function(err, res){
+        if (err) return alert('Something went wrong uploading your image. Please try again.')
+        if (res.status === 200) {
+          let newDraft = Object.assign({}, _this.props.draft)
+          newDraft['image'] = _this.state.signedRequest.url
+          _this.submitDraft(newDraft)
+          return
+        }
+      })
   }
 
   nextField(event){
     const id = event.target.id
     if (id === 'back') return this.setState({slide: this.state.slide-1})
-    if(this.state.slide === 2) return this.submitDraft(this.props.draft)
+    if(this.state.slide === 2) return this.uploadImage()
 
     this.setState({slide: this.state.slide+1})
   }
@@ -48,7 +89,11 @@ class DraftFrom extends Component {
   }
 
   render(){
-    let {slide} = this.state
+    let {slide, imagePreviewURL} = this.state
+    let imagePreview = null
+    if (imagePreviewURL){
+      imagePreview = (<img src={imagePreviewURL} />)
+    }
     let {visible} = this.props
     let content
 
@@ -61,7 +106,7 @@ class DraftFrom extends Component {
     }
 
     if(slide === 2){
-      content = <input type='file' accept='image/*' onChange={this.handleImageUpload} />
+      content = <input name='image' type='file' id='imageInput' onChange={this.fetchS3URL} />
     }
 
     return(
@@ -71,7 +116,7 @@ class DraftFrom extends Component {
           {content}
         </DraftContainer>
         <button id='back' className={(visible === true && slide !==0) ? 'submit-btn form-slideIn' : 'submit-btn form-slideOut'} onClick={this.nextField}>Previous</button>
-        <button className={visible ? 'submit-btn form-slideIn' : 'submit-btn form-slideOut'} onClick={this.nextField}>{(slide === 2) ? 'Submit': 'Next' }</button>
+        <button className={visible ? 'submit-btn form-slideIn' : 'submit-btn form-slideOut'} onClick={this.nextField}>{(slide === 2 ? 'Submit' : 'Next')}</button>
       </div>
     )
   }
