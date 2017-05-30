@@ -1,5 +1,4 @@
 import superagent from 'superagent'
-import Promise from 'bluebird'
 
 export default {
   get: (endpoint, params) => {
@@ -32,7 +31,7 @@ export default {
       .end((err, response) => {
         console.log('ERR: '+JSON.stringify(err))
         console.log('RESPONSE: '+JSON.stringify(response))
-        
+
         if(err){
           reject(err)
           return
