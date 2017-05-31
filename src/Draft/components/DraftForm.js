@@ -7,12 +7,33 @@ import DraftInput from './DraftInput'
 import request from 'superagent'
 import APIManager from '../../utils/APIManager'
 
+const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+  const byteCharacters = atob(b64Data)
+  const byteArrays = []
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize)
+
+    const byteNumbers = new Array(slice.length)
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i)
+    }
+
+    const byteArray = new Uint8Array(byteNumbers)
+
+    byteArrays.push(byteArray)
+  }
+
+  const blob = new Blob(byteArrays, {type: contentType})
+  return blob
+}
+
 class DraftFrom extends Component {
   constructor(props){
     super(props)
     this.captureDraft = this.captureDraft.bind(this)
     this.nextField = this.nextField.bind(this)
-    this.fetchS3URL = this.fetchS3URL.bind(this)
+    this.resizeImage = this.resizeImage.bind(this)
     this.uploadImage = this.uploadImage.bind(this)
     this.state = {
       slide: 0,
@@ -31,24 +52,23 @@ class DraftFrom extends Component {
     this.props.updateDraft(newDraft)
   }
 
-  fetchS3URL(event){
+  resizeImage(event){
     event.preventDefault()
-    const value = event.target.value
     let reader = new FileReader()
     let file = event.target.files[0]
 
     reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewURL: reader.result
-      })
+      this.setState({file:file})
       let _this = this
-      APIManager.get('/api/signS3', {fileName: file})
-      .then(function(data){
-        _this.setState({signedRequest: data.results})
+      APIManager.get('/api/transformImage', {imageDataURL: reader.result, imageFile: file})
+      .then(function(res){
+        _this.setState({signedRequest:res.results})
+        return
       })
       .catch(function(err){
-        return alert('Looks like something went wrong uploading your image.')
+        console.log('Line 69 ERR: '+JSON.stringify(err))
+        alert('Something went wrong tranforming image: '+JSON.stringify(err))
+        return
       })
     }
 
@@ -56,23 +76,24 @@ class DraftFrom extends Component {
   }
 
   uploadImage(){
-    let {signedRequest} = this.state.signedRequest
-    //check for null signedRequest & skip uploadImage
-
+    let {signedRequest, file} = this.state
     let _this = this
+
+    const blob = b64toBlob(signedRequest.imageBase64Data, signedRequest.contentType)
+
     request
-      .put(signedRequest)
-      .send(this.state.file)
-      .set('Accept', 'application/json')
-      .end(function(err, res){
-        if (err) return alert('Something went wrong uploading your image. Please try again.')
-        if (res.status === 200) {
-          let newDraft = Object.assign({}, _this.props.draft)
-          newDraft['image'] = _this.state.signedRequest.url
-          _this.submitDraft(newDraft)
-          return
-        }
-      })
+     .put(signedRequest.signedRequest)
+     .send(blob)
+     .set('Accept', 'application/json')
+     .end(function(err, res){
+       if (err) return alert('Something went wrong uploading your image. Please try again.')
+       if (res.status === 200) {
+         let newDraft = Object.assign({}, _this.props.draft)
+         newDraft['image'] = signedRequest.url
+         _this.submitDraft(newDraft)
+         return
+       }
+     })
   }
 
   nextField(event){
@@ -106,7 +127,7 @@ class DraftFrom extends Component {
     }
 
     if(slide === 2){
-      content = <input name='image' type='file' id='imageInput' onChange={this.fetchS3URL} />
+      content = <input name='image' type='file' id='imageInput' onChange={this.resizeImage} />
     }
 
     return(

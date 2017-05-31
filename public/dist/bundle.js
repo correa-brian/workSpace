@@ -12825,6 +12825,30 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var b64toBlob = function b64toBlob(b64Data) {
+  var contentType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+  var sliceSize = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 512;
+
+  var byteCharacters = atob(b64Data);
+  var byteArrays = [];
+
+  for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    var byteNumbers = new Array(slice.length);
+    for (var i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    var byteArray = new Uint8Array(byteNumbers);
+
+    byteArrays.push(byteArray);
+  }
+
+  var blob = new Blob(byteArrays, { type: contentType });
+  return blob;
+};
+
 var DraftFrom = function (_Component) {
   _inherits(DraftFrom, _Component);
 
@@ -12835,7 +12859,7 @@ var DraftFrom = function (_Component) {
 
     _this2.captureDraft = _this2.captureDraft.bind(_this2);
     _this2.nextField = _this2.nextField.bind(_this2);
-    _this2.fetchS3URL = _this2.fetchS3URL.bind(_this2);
+    _this2.resizeImage = _this2.resizeImage.bind(_this2);
     _this2.uploadImage = _this2.uploadImage.bind(_this2);
     _this2.state = {
       slide: 0,
@@ -12857,25 +12881,24 @@ var DraftFrom = function (_Component) {
       this.props.updateDraft(newDraft);
     }
   }, {
-    key: 'fetchS3URL',
-    value: function fetchS3URL(event) {
+    key: 'resizeImage',
+    value: function resizeImage(event) {
       var _this3 = this;
 
       event.preventDefault();
-      var value = event.target.value;
       var reader = new FileReader();
       var file = event.target.files[0];
 
       reader.onloadend = function () {
-        _this3.setState({
-          file: file,
-          imagePreviewURL: reader.result
-        });
+        _this3.setState({ file: file });
         var _this = _this3;
-        _APIManager2.default.get('/api/signS3', { fileName: file }).then(function (data) {
-          _this.setState({ signedRequest: data.results });
+        _APIManager2.default.get('/api/transformImage', { imageDataURL: reader.result, imageFile: file }).then(function (res) {
+          _this.setState({ signedRequest: res.results });
+          return;
         }).catch(function (err) {
-          return alert('Looks like something went wrong uploading your image.');
+          console.log('Line 69 ERR: ' + JSON.stringify(err));
+          alert('Something went wrong tranforming image: ' + JSON.stringify(err));
+          return;
         });
       };
 
@@ -12884,15 +12907,19 @@ var DraftFrom = function (_Component) {
   }, {
     key: 'uploadImage',
     value: function uploadImage() {
-      var signedRequest = this.state.signedRequest.signedRequest;
-      //check for null signedRequest & skip uploadImage
+      var _state = this.state,
+          signedRequest = _state.signedRequest,
+          file = _state.file;
 
       var _this = this;
-      _superagent2.default.put(signedRequest).send(this.state.file).set('Accept', 'application/json').end(function (err, res) {
+
+      var blob = b64toBlob(signedRequest.imageBase64Data, signedRequest.contentType);
+
+      _superagent2.default.put(signedRequest.signedRequest).send(blob).set('Accept', 'application/json').end(function (err, res) {
         if (err) return alert('Something went wrong uploading your image. Please try again.');
         if (res.status === 200) {
           var newDraft = Object.assign({}, _this.props.draft);
-          newDraft['image'] = _this.state.signedRequest.url;
+          newDraft['image'] = signedRequest.url;
           _this.submitDraft(newDraft);
           return;
         }
@@ -12916,9 +12943,9 @@ var DraftFrom = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _state = this.state,
-          slide = _state.slide,
-          imagePreviewURL = _state.imagePreviewURL;
+      var _state2 = this.state,
+          slide = _state2.slide,
+          imagePreviewURL = _state2.imagePreviewURL;
 
       var imagePreview = null;
       if (imagePreviewURL) {
@@ -12957,7 +12984,7 @@ var DraftFrom = function (_Component) {
       }
 
       if (slide === 2) {
-        content = _react2.default.createElement('input', { name: 'image', type: 'file', id: 'imageInput', onChange: this.fetchS3URL });
+        content = _react2.default.createElement('input', { name: 'image', type: 'file', id: 'imageInput', onChange: this.resizeImage });
       }
 
       return _react2.default.createElement(

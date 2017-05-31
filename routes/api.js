@@ -3,10 +3,12 @@ const router = express.Router()
 const draftController = require('../controllers/DraftController')
 const getFeaturedDraftsController = require('../controllers/GetFeaturedDraftsController')
 const signS3 = require('../controllers/SignS3')
+const transformImage = require('../controllers/TransformImage')
 const controllers = {
   drafts: draftController,
   getFeaturedDrafts: getFeaturedDraftsController,
-  signS3: signS3
+  signS3: signS3,
+  transformImage: transformImage
 }
 
 router.get('/:resource', function(req, res) {
