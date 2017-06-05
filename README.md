@@ -19,7 +19,7 @@ Visit the website [here](https://workspace-milkshake.herokuapp.com/)
 Run locally:
 
 ```
-https://github.com/correa-brian/workSpace
+https://github.com/milkshake-tech/workSpace.git
 cd workSpace
 touch .env
 ```
