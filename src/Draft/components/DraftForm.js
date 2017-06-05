@@ -77,9 +77,12 @@ class DraftFrom extends Component {
 
   uploadImage(){
     let {signedRequest, file} = this.state
-    let _this = this
+    let {draft} = this.props
+    if (signedRequest.imageBase64Data === undefined){ return this.submitDraft(draft)}
 
     const blob = b64toBlob(signedRequest.imageBase64Data, signedRequest.contentType)
+
+    let _this = this
 
     request
      .put(signedRequest.signedRequest)
@@ -88,7 +91,7 @@ class DraftFrom extends Component {
      .end(function(err, res){
        if (err) return alert('Something went wrong uploading your image. Please try again.')
        if (res.status === 200) {
-         let newDraft = Object.assign({}, _this.props.draft)
+         let newDraft = Object.assign({}, draft)
          newDraft['image'] = signedRequest.url
          _this.submitDraft(newDraft)
          return

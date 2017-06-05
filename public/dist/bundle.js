@@ -12910,15 +12910,20 @@ var DraftFrom = function (_Component) {
       var _state = this.state,
           signedRequest = _state.signedRequest,
           file = _state.file;
+      var draft = this.props.draft;
 
-      var _this = this;
+      if (signedRequest.imageBase64Data === undefined) {
+        return this.submitDraft(draft);
+      }
 
       var blob = b64toBlob(signedRequest.imageBase64Data, signedRequest.contentType);
+
+      var _this = this;
 
       _superagent2.default.put(signedRequest.signedRequest).send(blob).set('Accept', 'application/json').end(function (err, res) {
         if (err) return alert('Something went wrong uploading your image. Please try again.');
         if (res.status === 200) {
-          var newDraft = Object.assign({}, _this.props.draft);
+          var newDraft = Object.assign({}, draft);
           newDraft['image'] = signedRequest.url;
           _this.submitDraft(newDraft);
           return;
