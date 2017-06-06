@@ -343,12 +343,12 @@ table {
   margin-right: .6em;
 }
 
-.workspace-container{
+.footer-column{
   display: inline-block;
   width: 33%;
 }
 
-.workspace-title{
+.footer-column-title{
   font-size: 2em;
 }
 
@@ -369,24 +369,6 @@ table {
 .ws-list-item a {
   text-decoration: none;
   color: white;
-}
-
-.discover{
-  display: inline-block;
-  width: 33%;
-}
-
-.discover-title {
-  font-size: 2em;
-}
-
-.resources {
-  display: inline-block;
-  width: 33%;
-}
-
-.resources-title {
-  font-size:2em;
 }
 
 /*Transitions*/

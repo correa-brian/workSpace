@@ -9,8 +9,8 @@ class Footer extends Component {
     return(
       <div>
         <footer id='footer'>
-          <div className='workspace-container'>
-            <label className='workspace-title'>workSpace</label>
+          <div className='footer-column'>
+            <label className='footer-column-title'>workSpace</label>
             <img className='workspace-logo' src="/assets/images/workspace-logo-white.png"/>
             <ul>
               <li className='ws-list-item'><a href='#'>About us</a></li>
@@ -19,8 +19,8 @@ class Footer extends Component {
             </ul>
           </div>
 
-          <div className='discover'>
-            <label className='discover-title'>discover</label>
+          <div className='footer-column'>
+            <label className='footer-column-title'>discover</label>
             <ul>
               <li className='ws-list-item'><a href='#'>FAQ</a></li>
               <li className='ws-list-item'><a href='#'>How it works</a></li>
@@ -28,8 +28,8 @@ class Footer extends Component {
             </ul>
           </div>
 
-          <div className='resources'>
-            <label className='resources-title'>resources</label>
+          <div className='footer-column'>
+            <label className='footer-column-title'>resources</label>
             <ul>
               <li className='ws-list-item'><a href='#'>Blog</a></li>
               <li className='ws-list-item'><a href='#'>Terms</a></li>

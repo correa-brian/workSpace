@@ -7054,10 +7054,10 @@ var Footer = function (_Component) {
           { id: 'footer' },
           _react2.default.createElement(
             'div',
-            { className: 'workspace-container' },
+            { className: 'footer-column' },
             _react2.default.createElement(
               'label',
-              { className: 'workspace-title' },
+              { className: 'footer-column-title' },
               'workSpace'
             ),
             _react2.default.createElement('img', { className: 'workspace-logo', src: '/assets/images/workspace-logo-white.png' }),
@@ -7095,10 +7095,10 @@ var Footer = function (_Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'discover' },
+            { className: 'footer-column' },
             _react2.default.createElement(
               'label',
-              { className: 'discover-title' },
+              { className: 'footer-column-title' },
               'discover'
             ),
             _react2.default.createElement(
@@ -7135,10 +7135,10 @@ var Footer = function (_Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'resources' },
+            { className: 'footer-column' },
             _react2.default.createElement(
               'label',
-              { className: 'resources-title' },
+              { className: 'footer-column-title' },
               'resources'
             ),
             _react2.default.createElement(

@@ -7,7 +7,6 @@ const Header = ({ visible }) => (
         <a href='#main'><img className='logo' src="/assets/images/workspace-logo-white.png"/></a>
         <span className='logo-text'>workSpace</span>
       </div>
-
     </header>
   </div>
 )
