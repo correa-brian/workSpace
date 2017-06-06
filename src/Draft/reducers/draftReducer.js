@@ -9,6 +9,10 @@ export default (state = initialState, action) => {
   let newState = Object.assign({}, state)
 
   switch(action.type){
+    case constants.FILTER_DRAFTS:
+      newState['drafts'] = action.drafts
+      return newState
+
     case constants.RECEIVED_DRAFT:
       newState['draft'] = action.draft
       return newState

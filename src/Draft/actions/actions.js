@@ -38,6 +38,12 @@ const postRequest = (endpoint, params, actionType) => {
     })
 }
 
+export const filterDrafts = (drafts) => {
+  return (dispatch) => {
+    return dispatch(getRequest('/api/drafts', {topics: ['grammar', 'werk']}, constants.FILTER_DRAFTS))
+  }
+}
+
 export const receivedDraft = (draft) => ({
   type: constants.RECEIVED_DRAFT,
   draft
