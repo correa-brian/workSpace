@@ -54,8 +54,11 @@ class DraftFrom extends Component {
 
   resizeImage(event){
     event.preventDefault()
-    let reader = new FileReader()
     let file = event.target.files[0]
+    var fileSize = file.size
+    if (fileSize > 80000) return alert('Please pick a smaller-sized image.')
+
+    let reader = new FileReader()
 
     reader.onloadend = () => {
       this.setState({file:file})
@@ -66,9 +69,7 @@ class DraftFrom extends Component {
         return
       })
       .catch(function(err){
-        console.log('Line 69 ERR: '+JSON.stringify(err))
-        alert('Something went wrong tranforming image: '+JSON.stringify(err))
-        return
+        return alert('Something went wrong tranforming image: '+JSON.stringify(err))
       })
     }
 
@@ -91,7 +92,6 @@ class DraftFrom extends Component {
      .end(function(err, res){
        if (err) return alert('Something went wrong uploading your image. Please try again.')
        if (res.status === 200) {
-         console.log('Line 94 AWS res: '+JSON.stringify(res))
          let newDraft = Object.assign({}, draft)
          newDraft['image'] = signedRequest.url
          _this.submitDraft(newDraft)

@@ -6,10 +6,7 @@ module.exports = {
 
       const fileName = req.imageFile.name
 
-      // const parsedFile = req.imageDataURL.split('data:image/png;base64,')
       const parsedFile = req.imageDataURL.split(';base64,')
-
-      console.log('Line 10 parsedFile: '+JSON.stringify(parsedFile))
       const fileString = parsedFile[1]
       const fileBuffer = new Buffer(fileString, "base64")
 
