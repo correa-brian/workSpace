@@ -7230,15 +7230,6 @@ var Header = function Header(_ref) {
           { className: 'logo-text' },
           'workSpace'
         )
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'register-container' },
-        _react2.default.createElement(
-          'button',
-          { className: 'register-btn' },
-          'Signup / Login'
-        )
       )
     )
   );
