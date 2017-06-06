@@ -6929,7 +6929,7 @@ module.exports = __webpack_require__(164);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createdDraft = exports.receivedFeaturedDrafts = exports.receivedDraft = undefined;
+exports.createdDraft = exports.receivedFeaturedDrafts = exports.receivedDraft = exports.filterDrafts = undefined;
 
 var _constants = __webpack_require__(60);
 
@@ -6976,6 +6976,12 @@ var postRequest = function postRequest(endpoint, params, actionType) {
   };
 };
 
+var filterDrafts = exports.filterDrafts = function filterDrafts(drafts) {
+  return function (dispatch) {
+    return dispatch(getRequest('/api/drafts', { topics: ['grammar', 'werk'] }, _constants2.default.FILTER_DRAFTS));
+  };
+};
+
 var receivedDraft = exports.receivedDraft = function receivedDraft(draft) {
   return {
     type: _constants2.default.RECEIVED_DRAFT,
@@ -7003,6 +7009,7 @@ var createdDraft = exports.createdDraft = function createdDraft(draft) {
 
 
 module.exports = {
+  FILTER_DRAFTS: 'FILTER_DRAFTS',
   RECEIVED_DRAFT: 'RECEIVED_DRAFT',
   RECEIVED_FEATURED_DRAFTS: 'RECEIVED_FEATURED_DRAFTS',
   CREATED_DRAFT: 'CREATED_DRAFT',
@@ -7262,6 +7269,14 @@ var _DraftList = __webpack_require__(114);
 
 var _DraftList2 = _interopRequireDefault(_DraftList);
 
+var _reactRedux = __webpack_require__(35);
+
+var _store = __webpack_require__(34);
+
+var _store2 = _interopRequireDefault(_store);
+
+var _actions = __webpack_require__(59);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7276,16 +7291,29 @@ var Jumbotron = function (_Component) {
   function Jumbotron(props) {
     _classCallCheck(this, Jumbotron);
 
-    var _this = _possibleConstructorReturn(this, (Jumbotron.__proto__ || Object.getPrototypeOf(Jumbotron)).call(this, props));
+    var _this2 = _possibleConstructorReturn(this, (Jumbotron.__proto__ || Object.getPrototypeOf(Jumbotron)).call(this, props));
 
-    _this.startDraft = _this.startDraft.bind(_this);
-    _this.state = {
+    _this2.topicNames = ['grammar', 'plot', 'spelling', 'storyline'];
+    _this2.highlightTopic = _this2.highlightTopic.bind(_this2);
+    _this2.startDraft = _this2.startDraft.bind(_this2);
+    _this2.state = {
+      topics: { 'grammar': false, 'plot': false, 'spelling': false, 'storyline': false },
       visible: false
     };
-    return _this;
+    return _this2;
   }
 
   _createClass(Jumbotron, [{
+    key: 'highlightTopic',
+    value: function highlightTopic(event) {
+      var topics = this.state.topics;
+
+      var updatedTopicsState = Object.assign({}, topics);
+      updatedTopicsState[event.target.id] = !updatedTopicsState[event.target.id];
+      this.setState({ topics: updatedTopicsState });
+      // this.props.fetchFilteredDrafts(updatedTopicsState)
+    }
+  }, {
     key: 'startDraft',
     value: function startDraft(event) {
       this.setState({ visible: !this.state.visible });
@@ -7293,8 +7321,19 @@ var Jumbotron = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var visible = this.state.visible;
+      var _state = this.state,
+          visible = _state.visible,
+          topics = _state.topics;
 
+      var _this = this;
+      var tagsList = this.topicNames.map(function (tag, i) {
+        return _react2.default.createElement(
+          'p',
+          { key: i, id: tag, className: 'topic', style: { backgroundColor: topics[tag] === true ? 'blue' : '' }, onClick: _this.highlightTopic },
+          tag,
+          ' '
+        );
+      });
       return _react2.default.createElement(
         'div',
         { className: 'jumbotron' },
@@ -7314,7 +7353,12 @@ var Jumbotron = function (_Component) {
           _react2.default.createElement(
             'h1',
             { className: 'draft-list-header' },
-            'Trending Drafts'
+            'Explore Trending Drafts'
+          ),
+          _react2.default.createElement(
+            'div',
+            { style: { textAlign: 'center', margin: '1em auto' } },
+            tagsList
           ),
           _react2.default.createElement(
             'div',
@@ -7329,7 +7373,21 @@ var Jumbotron = function (_Component) {
   return Jumbotron;
 }(_react.Component);
 
-exports.default = Jumbotron;
+var stateToProps = function stateToProps(state) {
+  return {
+    drafts: state.draftReducer.drafts
+  };
+};
+
+var dispatchToProps = function dispatchToProps(dispatch) {
+  return {
+    fetchFilteredDrafts: function fetchFilteredDrafts() {
+      return dispatch((0, _actions.filterDrafts)());
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Jumbotron);
 
 /***/ }),
 /* 64 */
@@ -13273,6 +13331,10 @@ exports.default = function () {
   var newState = Object.assign({}, state);
 
   switch (action.type) {
+    case _constants2.default.FILTER_DRAFTS:
+      newState['drafts'] = action.drafts;
+      return newState;
+
     case _constants2.default.RECEIVED_DRAFT:
       newState['draft'] = action.draft;
       return newState;
