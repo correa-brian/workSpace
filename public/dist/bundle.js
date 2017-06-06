@@ -7377,7 +7377,7 @@ exports.default = {
   },
   post: function post(endpoint, params) {
     return new Promise(function (resolve, reject) {
-      _superagent2.default.post(endpoint).send(params).set('Accept', 'application/json').end(function (err, response) {
+      _superagent2.default.post(endpoint).send(params).set('Accept', 'application/json').set('Content-Type', 'application/json').end(function (err, response) {
         if (err) {
           reject(err);
           return;
@@ -12888,6 +12888,7 @@ var DraftFrom = function (_Component) {
       event.preventDefault();
       var file = event.target.files[0];
       var fileSize = file.size;
+      console.log('Line 59 file name: ' + JSON.stringify(file.name));
       if (fileSize > 80000) return alert('Please pick a smaller-sized image.');
 
       var reader = new FileReader();
@@ -12895,8 +12896,9 @@ var DraftFrom = function (_Component) {
       reader.onloadend = function () {
         _this3.setState({ file: file });
         var _this = _this3;
-        _APIManager2.default.get('/api/transformImage', { imageDataURL: reader.result, imageFile: file }).then(function (res) {
-          _this.setState({ signedRequest: res.results });
+        _APIManager2.default.post('/api/transformImage', { imageDataURL: reader.result, imageFile: file.name }).then(function (res) {
+          console.log('Line 68 S3 res: ' + JSON.stringify(res));
+          _this.setState({ signedRequest: res.result });
           return;
         }).catch(function (err) {
           return alert('Something went wrong tranforming image: ' + JSON.stringify(err));

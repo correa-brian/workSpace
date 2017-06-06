@@ -28,6 +28,7 @@ export default {
       .post(endpoint)
       .send(params)
       .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .end((err, response) => {
         if(err){
           reject(err)

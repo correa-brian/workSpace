@@ -1,10 +1,10 @@
 const sharp = require('sharp')
 const signS3 = require('../controllers/SignS3')
 module.exports = {
-  get: function(req, res){
+  post: function(req){
     return new Promise(function(resolve, reject){
 
-      const fileName = req.imageFile.name
+      const fileName = req.imageFile
 
       const parsedFile = req.imageDataURL.split(';base64,')
       const fileString = parsedFile[1]
