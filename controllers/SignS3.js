@@ -1,6 +1,5 @@
 const aws = require('aws-sdk')
 const fs = require('fs')
-
 module.exports = {
   get: function(req, res){
     return new Promise(function(resolve, reject){
@@ -15,12 +14,8 @@ module.exports = {
         ContentType: fileType,
         ACL: 'public-read'
       }
-      fs.readFile('./public/assets/images/'+fileName, 'base64', (err, data) => {
-        if (err){
-          reject(err)
-          return
-        }
 
+        let imageData = Buffer.from(req.imageData).toString('base64')
         s3.getSignedUrl('putObject', s3Params, function(err, res){
           if(err){
             reject(err)
@@ -29,13 +24,13 @@ module.exports = {
           const returnData = {
             signedRequest: res,
             url: 'https://'+process.env.S3BUCKET+'.s3.amazonaws.com/'+fileName,
-            imageBase64Data: data,
+            imageBase64Data: imageData,
             contentType: fileType
           }
           resolve(returnData)
           return
         })
-      })
+
     })
   }
 }

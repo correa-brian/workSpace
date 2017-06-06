@@ -1,26 +1,27 @@
 const sharp = require('sharp')
 const signS3 = require('../controllers/SignS3')
-
 module.exports = {
   get: function(req, res){
-    console.log('Line 6 transformImage GET')
     return new Promise(function(resolve, reject){
-      console.log('Line 8 transformImage PROMISE')
 
       const fileName = req.imageFile.name
 
-      const parsedFile = req.imageDataURL.split('data:image/png;base64,')
+      // const parsedFile = req.imageDataURL.split('data:image/png;base64,')
+      const parsedFile = req.imageDataURL.split(';base64,')
+
+      console.log('Line 10 parsedFile: '+JSON.stringify(parsedFile))
       const fileString = parsedFile[1]
       const fileBuffer = new Buffer(fileString, "base64")
 
       sharp(fileBuffer)
         .resize(200,200)
-        .toFile('./public/assets/images/'+'200x200_'+fileName, function(err, info){
+        .toBuffer({resolveWithObject: true}, function(err, data, info){
           if (err){
             reject(err)
             return
           }
-          signS3.get({imgFileName: '200x200_'+fileName, imgFileType: 'image/'+info.format})
+
+          signS3.get({imgFileName: '200x200_'+fileName, imgFileType: 'image/'+info.format, imageData: data})
           .then(function(res){
             resolve(res)
             return
@@ -29,6 +30,7 @@ module.exports = {
             reject(err)
             return
           })
+
         })
     })
   }

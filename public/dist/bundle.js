@@ -12923,6 +12923,7 @@ var DraftFrom = function (_Component) {
       _superagent2.default.put(signedRequest.signedRequest).send(blob).set('Accept', 'application/json').end(function (err, res) {
         if (err) return alert('Something went wrong uploading your image. Please try again.');
         if (res.status === 200) {
+          console.log('Line 94 AWS res: ' + JSON.stringify(res));
           var newDraft = Object.assign({}, draft);
           newDraft['image'] = signedRequest.url;
           _this.submitDraft(newDraft);
