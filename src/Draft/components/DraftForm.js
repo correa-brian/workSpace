@@ -56,7 +56,6 @@ class DraftFrom extends Component {
     event.preventDefault()
     let file = event.target.files[0]
     let fileSize = file.size
-    console.log('Line 59 file name: '+JSON.stringify(file.name))
     if (fileSize > 80000) return alert('Please pick a smaller-sized image.')
 
     let reader = new FileReader()
@@ -66,7 +65,6 @@ class DraftFrom extends Component {
       let _this = this
       APIManager.post('/api/transformImage', {imageDataURL: reader.result, imageFile: file.name})
       .then(function(res){
-        console.log('Line 68 S3 res: '+JSON.stringify(res))
         _this.setState({signedRequest:res.result})
         return
       })

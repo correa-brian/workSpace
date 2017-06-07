@@ -6,7 +6,6 @@ const getRequest = (endpoint, params, actionType) => {
     APIManager.get(endpoint, params)
     .then(response => {
       const payload = response.results || response.result
-
       dispatch({
         type: actionType,
         payload: payload,
@@ -38,9 +37,15 @@ const postRequest = (endpoint, params, actionType) => {
     })
 }
 
-export const filterDrafts = (drafts) => {
+export const createdDraft = (draft) => {
   return (dispatch) => {
-    return dispatch(getRequest('/api/drafts', {topics: ['grammar', 'werk']}, constants.FILTER_DRAFTS))
+    return dispatch(postRequest('/api/drafts', draft, constants.CREATED_DRAFT))
+  }
+}
+
+export const filterDrafts = (drafts, params) => {
+  return (dispatch) => {
+    return dispatch(getRequest('/api/getFilteredDrafts', params, constants.FILTER_DRAFTS))
   }
 }
 
@@ -52,11 +57,5 @@ export const receivedDraft = (draft) => ({
 export const receivedFeaturedDrafts = (drafts) => {
   return (dispatch) => {
     return dispatch(getRequest('/api/getFeaturedDrafts', null, constants.RECEIVED_FEATURED_DRAFTS))
-  }
-}
-
-export const createdDraft = (draft) => {
-  return (dispatch) => {
-    return dispatch(postRequest('/api/drafts', draft, constants.CREATED_DRAFT))
   }
 }

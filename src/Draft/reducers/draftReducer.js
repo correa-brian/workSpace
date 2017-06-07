@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
 
   switch(action.type){
     case constants.FILTER_DRAFTS:
-      newState['drafts'] = action.drafts
+      newState['drafts'] = action.payload
       return newState
 
     case constants.RECEIVED_DRAFT:

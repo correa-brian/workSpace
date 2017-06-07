@@ -2,11 +2,13 @@ const express = require('express')
 const router = express.Router()
 const draftController = require('../controllers/DraftController')
 const getFeaturedDraftsController = require('../controllers/GetFeaturedDraftsController')
+const getFilteredDraftsController = require('../controllers/GetFilteredDraftsController')
 const signS3 = require('../controllers/SignS3')
 const transformImage = require('../controllers/TransformImage')
 const controllers = {
   drafts: draftController,
   getFeaturedDrafts: getFeaturedDraftsController,
+  getFilteredDrafts: getFilteredDraftsController,
   signS3: signS3,
   transformImage: transformImage
 }

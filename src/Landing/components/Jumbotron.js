@@ -4,6 +4,7 @@ import DraftList from '../../Draft/components/DraftList'
 import { connect } from 'react-redux'
 import store from '../../stores/store'
 import { filterDrafts } from '../../Draft/actions/actions'
+import APIManager from '../../utils/APIManager'
 
 class Jumbotron extends Component {
   constructor(props){
@@ -12,17 +13,17 @@ class Jumbotron extends Component {
     this.highlightTopic = this.highlightTopic.bind(this)
     this.startDraft = this.startDraft.bind(this)
     this.state = {
-      topics: {'grammar': false, 'plot':false, 'spelling':false, 'storyline':false},
+      topicSelection: {'grammar': false, 'plot':false, 'spelling':false, 'storyline':false},
       visible: false
     }
   }
 
   highlightTopic(event){
-    let {topics} = this.state
-    let updatedTopicsState = Object.assign({}, topics)
+    let {topicSelection} = this.state
+    let updatedTopicsState = Object.assign({}, topicSelection)
     updatedTopicsState[event.target.id] = !updatedTopicsState[event.target.id]
-    this.setState({topics: updatedTopicsState})
-    // this.props.fetchFilteredDrafts(updatedTopicsState)
+    this.setState({topicSelection: updatedTopicsState})
+    this.props.fetchFilteredDrafts('drafts', {topics: updatedTopicsState})
   }
 
   startDraft(event){
@@ -30,10 +31,10 @@ class Jumbotron extends Component {
   }
 
   render(){
-    let {visible, topics} = this.state
+    let {visible, topicSelection} = this.state
     let _this = this
     let tagsList = this.topicNames.map(function(tag, i){
-      return <p key={i} id={tag} className='topic' style={{backgroundColor: topics[tag] === true ? 'blue':''}} onClick={_this.highlightTopic}>{tag} </p>
+      return <p key={i} id={tag} className='topic' style={{backgroundColor: topicSelection[tag] === true ? 'blue':''}} onClick={_this.highlightTopic}>{tag} </p>
     })
     return(
       <div className='jumbotron'>
@@ -62,7 +63,7 @@ const stateToProps = (state) => ({
 })
 
 const dispatchToProps = (dispatch) => ({
-  fetchFilteredDrafts: () => dispatch(filterDrafts())
+  fetchFilteredDrafts: (drafts, params) => dispatch(filterDrafts(drafts, params))
 })
 
 export default connect (stateToProps, dispatchToProps)(Jumbotron)
