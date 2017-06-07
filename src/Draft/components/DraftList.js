@@ -5,7 +5,6 @@ import store from '../../stores/store'
 import { receivedFeaturedDrafts } from '../actions/actions'
 import DraftListItem from './DraftListItem'
 
-
 class DraftList extends Component {
   constructor(props){
     super(props)
