@@ -123,50 +123,81 @@ table {
   width: 100%;
 	font-family: sans-serif;
 	color: #a09f9f;
-	background-color: white;
+	background-color:#4B5353;
+	opacity: .8;
   font-family: 'Voltaire', sans-serif;
-	background: url('/assets/images/DeathtoStock_Meticulous.jpg');
 	background-size: cover;
 	padding-top: 80px;
-	display: flex;
-	justify-content: space-around;
+}
+
+.jumbotron-submit-draft{
+  height: 600px;
+  width: 100%;
+	font-family: sans-serif;
+	color: #a09f9f;
+  font-family: 'Voltaire', sans-serif;
+	background: url('/assets/images/DeathtoStock_TheCollaborative-1.jpg');
+	background-size: cover;
+}
+
+.jumbotron-welcome{
+  height: 600px;
+  width: 100%;
+	font-family: sans-serif;
+	color: #ffffff;
+	background-color: white;
+  font-family: 'Voltaire', sans-serif;
+	background: url('/assets/images/DeathtoStock_TheCollaborative-4.jpg');
+	background-size: cover;
+	padding-top: 80px;
 }
 
 .jumbotron-left {
-	width: 50%;
-	margin-left: 5%;
-	overflow: visible;
+	overflow: hidden;
+	background-color: white;
+	height: 100%;
+	width: 100%;
+	margin: auto;
+	opacity: .5;
+	transition: all .5s ease-in;
 }
 
-#jumbotron-container {
+.jumbotron-drafts-container{
+	margin: 3em;
+}
+
+#jumbotron-drafts-container {
 	transition: all .3s linear;
 }
 
-#jumbotron-container.slideIn {
+#jumbotron-drafts-container.slideIn {
 	transform: translateX(2em);
 }
 
-#jumbotron-container.slideOut {
+#jumbotron-drafts-container.slideOut {
 	transform: translateX(0em);
 }
 
 .jumbotron-title {
   font-size: 2em;
-  margin: 10% 0 0;
 	padding: .3em .5em;
 	color: white;
 	width: 350px;
+	height: 50px;
+	margin: 1em auto;
 	background-color: #007AFF;
 	opacity: 0.9;
 	border-radius: 5em;
 	text-shadow: none;
+	cursor: pointer;
+	text-align: center;
 }
 
-.jumbotron-right {
-	width: 50%;
+.jumbotron-image-container {
+	width: 100%;
 	background-color: #4B5353;
 	opacity: .8;
-	height: 90%;
+	height: 100%;
 	margin: auto;
 	display: flex;
 	flex-direction: column;
@@ -248,8 +279,6 @@ table {
 
 .submit-btn {
 	min-width: 20%;
-	margin: 2% 1em;
-	height: 5%;
 	background-color: #007AFF;
 	color: white;
 	font-size: 1.2em;
@@ -277,7 +306,7 @@ table {
 	height: 81.96px;
 	border-radius: 50%;
 	text-align: center;
-	margin: 0 0 0 -5%;
+	margin: 0 0 0 15%;
 	box-shadow: 0 0 10px black;
 	cursor: pointer;
 	position: absolute;
@@ -329,7 +358,6 @@ table {
 	color: black;
 	text-shadow: none;
 	height: 6%;
-	padding-top: 2.5%;
 }
 
 
@@ -342,7 +370,7 @@ table {
 .draft-list-item {
 	color: black;
 	text-shadow: none;
-	margin: .75em 1em;
+	margin: 1em 1em;
 	height: 100%;
 	width: 100%;
 	text-align: center;

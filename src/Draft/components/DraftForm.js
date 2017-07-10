@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import store from '../../stores/store'
 import { receivedDraft, receivedFeaturedDrafts, createdDraft } from '../actions/actions'
-import DraftContainer from './DraftContainer'
 import DraftInput from './DraftInput'
 import request from 'superagent'
 import APIManager from '../../utils/APIManager'
@@ -32,11 +31,9 @@ class DraftFrom extends Component {
   constructor(props){
     super(props)
     this.captureDraft = this.captureDraft.bind(this)
-    this.nextField = this.nextField.bind(this)
     this.resizeImage = this.resizeImage.bind(this)
     this.uploadImage = this.uploadImage.bind(this)
     this.state = {
-      slide: 0,
       file: null,
       imagePreviewURL: null,
       signedRequest: {}
@@ -79,7 +76,10 @@ class DraftFrom extends Component {
   uploadImage(){
     let {signedRequest, file} = this.state
     let {draft} = this.props
-    if (signedRequest.imageBase64Data === undefined){ return this.submitDraft(draft)}
+    console.log('IMAGE ', draft)
+    if (draft.title === undefined || draft.topics === undefined){ return alert('Woops, need a title and tags to upload image.') }
+    if (draft.title.length === 0 || draft.topics.length === 0){ return alert('Woops, need a title and tags to upload image.') }
+    if (signedRequest.imageBase64Data === undefined){ return alert('Woops, upload an image first.')}
 
     const blob = b64toBlob(signedRequest.imageBase64Data, signedRequest.contentType)
 
@@ -100,17 +100,10 @@ class DraftFrom extends Component {
      })
   }
 
-  nextField(event){
-    const id = event.target.id
-    if (id === 'back') return this.setState({slide: this.state.slide-1})
-    if(this.state.slide === 2) return this.uploadImage()
-
-    this.setState({slide: this.state.slide+1})
-  }
-
   submitDraft(draft){
     this.props.submitDraft(draft)
     this.props.fetchDrafts()
+    return alert('workSpace uploaded!')
   }
 
   render(){
@@ -120,28 +113,13 @@ class DraftFrom extends Component {
       imagePreview = (<img src={imagePreviewURL} />)
     }
     let {visible} = this.props
-    let content
-
-    if(slide === 0){
-      content = <div key='1'> <DraftInput visible={visible} id='title' placeholder='Enter your title' onChange={this.captureDraft} /> <br /> <textarea name='text' id='text' className={visible ? 'form-slideIn' : 'form-slideOut'} placeholder="Your text..." onChange={this.captureDraft}></textarea></div>
-    }
-
-    if(slide === 1){
-      content = <div key='2'><DraftInput id='authorID' visible={visible} placeholder='Name' onChange={this.captureDraft} /> <br /> <DraftInput id='topics' visible={visible} placeholder='Tags' onChange={this.captureDraft} /> <br /> </div>
-    }
-
-    if(slide === 2){
-      content = <input name='image' type='file' id='imageInput' onChange={this.resizeImage} />
-    }
 
     return(
-      <div id='jumbotron-container' className={visible ? 'slideIn' : 'slideOut'}>
-        <h4 className='jumbotron-title'>Submit a draft to workSpace</h4>
-        <DraftContainer className='draft-form'>
-          {content}
-        </DraftContainer>
-        <button id='back' className={(visible === true && slide !==0) ? 'submit-btn form-slideIn' : 'submit-btn form-slideOut'} onClick={this.nextField}>Previous</button>
-        <button className={visible ? 'submit-btn form-slideIn' : 'submit-btn form-slideOut'} onClick={this.nextField}>{(slide === 2 ? 'Submit' : 'Next')}</button>
+      <div id='jumbotron-drafts-container' className={visible ? 'slideIn' : 'slideOut'}>
+        <DraftInput visible={visible} id='title' placeholder='Enter your title' name='title' type='text' onChange={this.captureDraft} />
+        <DraftInput id='topics' visible={visible} placeholder='Tags' name='topics' type='text' onChange={this.captureDraft} />
+        <DraftInput id='imageInput' visible={visible} placeholder='Upload Image' name='image' type='file' onChange={this.resizeImage} style={{margin:1+'em', fontSize:1+'em'}} />
+        <button className={visible ? 'submit-btn form-slideIn' : 'submit-btn form-slideOut'} onClick={this.uploadImage}>Submit</button>
       </div>
     )
   }

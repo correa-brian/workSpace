@@ -9,11 +9,10 @@ import APIManager from '../../utils/APIManager'
 class Jumbotron extends Component {
   constructor(props){
     super(props)
-    this.topicNames = ['grammar', 'plot', 'spelling', 'storyline']
+    this.topicNames = ['outside', 'coworking', 'coffee', 'snacks']
     this.highlightTopic = this.highlightTopic.bind(this)
-    this.startDraft = this.startDraft.bind(this)
     this.state = {
-      topicSelection: {'grammar': false, 'plot':false, 'spelling':false, 'storyline':false},
+      topicSelection: {'outside': false, 'coworking':false, 'coffee':false, 'snacks':false},
       visible: false
     }
   }
@@ -26,10 +25,6 @@ class Jumbotron extends Component {
     this.props.fetchFilteredDrafts('drafts', {topics: updatedTopicsState})
   }
 
-  startDraft(event){
-    this.setState({visible: !this.state.visible})
-  }
-
   render(){
     let {visible, topicSelection} = this.state
     let _this = this
@@ -38,17 +33,11 @@ class Jumbotron extends Component {
     })
     return(
       <div className='jumbotron'>
-        <div className='jumbotron-left'>
-          <DraftForm visible={visible} />
-          <div id='workspace-btn' onClick={this.startDraft}>
-            <img id='workspace-btn-bg' src="/assets/images/workspace-logo-white.png" />
-          </div>
+        <h1 className='draft-list-header'>Explore Trending Work Spaces</h1>
+        <div style={{textAlign:'center', margin: '1em auto'}}>
+          {tagsList}
         </div>
-        <div className='jumbotron-right'>
-          <h1 className='draft-list-header'>Explore Trending Drafts</h1>
-          <div style={{textAlign:'center', margin: '1em auto'}}>
-            {tagsList}
-          </div>
+        <div className='jumbotron-drafts-container'>
           <div className='jumbotron-overlay'>
             <DraftList />
           </div>
